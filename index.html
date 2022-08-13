@@ -1,0 +1,32 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>İlk Go Projem</title>
+</head>
+<body>
+    <h1>Büşra İnceler</h1>
+    {{ . }} <br> <!-- . kısmı go dan gelen veri. Eğer gönderilen değerler içinde veri varsa .veri dememiz gerekiyor-->
+    {{ .sayilar }}
+    <!-- {{ .Veri }} <br> -->
+    <!-- {{ .Sayilar }} -->
+    <!-- {{ .veri }} <br> -->
+    {{ range $index,$value := .sayilar }}
+    <h1>{{ $index }} - {{$value}} </h1>
+    {{ end }}
+    {{ if .is_admin  }}
+     <h1>Bu kullanıcı bir admindir...</h1>
+    {{ else }}
+     <h1>Bu kullanıcı bir admin değildir..</h1>
+    {{ end }}
+
+    {{ if eq .sayi 11 }}
+        <p>Tebrikler Sayılar eşit</p>
+    {{ else if eq .sayi 10 }}
+        <p> Tebrikler</p>
+    {{ end }}
+
+</body>
+</html>
