@@ -1,4 +1,3 @@
-{{ define "anasayfa" }}
 <html>
 <head>
     <meta charset="UTF-8">
@@ -8,9 +7,9 @@
     <title>İlk Go Projem</title>
 </head>
 <body>
-    <h1>Anasayfa</h1>
+    <h1>{{ . }}</h1>
     <hr>
-    {{ template "navbar" . }}
+    <h1>Navbar</h1>
     <hr>
     <h1>Anasayfa İçeriği</h1>
     <hr>
@@ -19,4 +18,3 @@
     <h1>Footer</h1>
 </body>
 </html>
-{{ end }}
