@@ -1,31 +1,36 @@
 package main
 
 import (
-	"github.com/julienschmidt/httprouter"
-	"html/template"
-	"io"
-	"net/http"
-	"os"
+	"fmt"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
+type User struct {
+	gorm.Model
+	Username, Password string
+}
+
 func main() {
-	//http.Handle("/", http.FileServer(http.Dir(".")))
-	//http.HandleFunc("/", Anasayfa)
-	//http.HandleFunc("/detay", Detay)
-	r := httprouter.New()
-	r.GET("/", Anasayfa)
-	r.POST("/deneme", Deneme)
-	http.ListenAndServe(":9090", r)
-}
+	dsn := "host=127.0.0.1 user=busrai password=123 dbname=go_blog port=5432"
+	db, _ := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 
-func Anasayfa(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-	view, _ := template.ParseFiles("index.html")
-	view.Execute(w, nil)
-}
+	db.AutoMigrate(&User{})
 
-func Deneme(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-	r.ParseMultipartForm(10 << 20)
-	file, header, _ := r.FormFile("file")
-	f, _ := os.OpenFile(header.Filename, os.O_WRONLY|os.O_CREATE, 0666)
-	io.Copy(f, file)
+	db.Create(&User{Username: "Büşra", Password: "123"})
+	var user User
+	db.First(&user, "1")
+	db.First(&user, "password = ?", "123")
+	fmt.Println(user.Username)
+
+	var users []User
+	db.Find(&users, "password = ?", "123")
+	fmt.Println(users)
+
+	db.First(&user, 1)
+	db.Model(&user).Update("username", "gorm")
+
+	db.Model(&user).Updates(User{Username: "busra", Password: "1234567"})
+
+	db.Delete(&user, 1)
 }
