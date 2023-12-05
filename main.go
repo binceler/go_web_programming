@@ -1,10 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"github.com/julienschmidt/httprouter"
 	"html/template"
+	"io"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -23,8 +24,8 @@ func Anasayfa(w http.ResponseWriter, r *http.Request, params httprouter.Params) 
 }
 
 func Deneme(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-	check := r.FormValue("check")
-	formSelect := r.FormValue("select")
-	fmt.Println(check)
-	fmt.Println(formSelect)
+	r.ParseMultipartForm(10 << 20)
+	file, header, _ := r.FormFile("file")
+	f, _ := os.OpenFile(header.Filename, os.O_WRONLY|os.O_CREATE, 0666)
+	io.Copy(f, file)
 }
