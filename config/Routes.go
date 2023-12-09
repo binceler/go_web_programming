@@ -8,8 +8,10 @@ import (
 
 func Routes() *httprouter.Router {
 	r := httprouter.New()
+	//ADMIN
 	r.GET("/admin", admin.Dashboard{}.Index)
 
+	//SERVE FILES
 	r.ServeFiles("/admin/*filepath", http.Dir("admin/"))
 	return r
 }
