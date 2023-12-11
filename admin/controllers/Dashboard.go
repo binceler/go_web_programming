@@ -16,8 +16,6 @@ import (
 type Dashboard struct{}
 
 func (dashboard Dashboard) Index(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
-	helpers.SetAlert(w, r)
-	helpers.GetAlert(w, r)
 	var view, err = template.ParseFiles(helpers.Include("dashboard/list")...)
 	if err != nil {
 		fmt.Println(err)
@@ -25,6 +23,7 @@ func (dashboard Dashboard) Index(w http.ResponseWriter, r *http.Request, params 
 	}
 	data := make(map[string]interface{})
 	data["posts"] = models.Post{}.GetAll()
+	data["alert"] = helpers.GetAlert(w, r)
 	view.ExecuteTemplate(w, "index", data)
 }
 
@@ -72,8 +71,10 @@ func (dashboard Dashboard) Add(w http.ResponseWriter, r *http.Request, params ht
 		Content:     content,
 		Picture_url: "uploads/" + header.Filename,
 	}.Add()
+
+	helpers.SetAlert(w, r, "Kayıt başarıyla alındı")
+
 	http.Redirect(w, r, "/admin", http.StatusSeeOther)
-	//TODO Alert
 }
 
 func (dashboard Dashboard) Delete(w http.ResponseWriter, r *http.Request, params httprouter.Params) {

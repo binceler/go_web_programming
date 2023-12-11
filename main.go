@@ -18,5 +18,5 @@ func main() {
 	//post.Update("description", "123")
 	//post.Updates(admin_models.Post{Title: "Anksiyete nasıl önlenir", Slug: "anksiyete-nasıl-önlenir"})
 	//post.Delete()
-	http.ListenAndServe(":6070", config.Routes())
+	http.ListenAndServe(":9090", config.Routes())
 }
