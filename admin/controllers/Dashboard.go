@@ -16,6 +16,8 @@ import (
 type Dashboard struct{}
 
 func (dashboard Dashboard) Index(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
+	helpers.SetAlert(w, r)
+	helpers.GetAlert(w, r)
 	var view, err = template.ParseFiles(helpers.Include("dashboard/list")...)
 	if err != nil {
 		fmt.Println(err)
