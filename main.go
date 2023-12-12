@@ -1,13 +1,15 @@
 package main
 
 import (
+	admin_models "httrouter/admin/models"
 	"httrouter/config"
 	"net/http"
 )
 
 func main() {
 	// Model view controller
-	//admin_models.Post{}.Migrate()
+	admin_models.Post{}.Migrate()
+	admin_models.User{}.Migrate()
 	/*admin_models.Post{
 		Title: "Büşra İnceler - Gopher",
 		Slug:  "busra-inceler-gopher",
