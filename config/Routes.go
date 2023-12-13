@@ -20,6 +20,10 @@ func Routes() *httprouter.Router {
 	r.POST("/admin/do_login", admin.Userops{}.Login)
 	r.GET("/admin/logout", admin.Userops{}.Logout)
 
+	r.GET("/admin/kategoriler", admin.Categories{}.Index)
+	r.POST("/admin/kategoriler/add", admin.Categories{}.Add)
+	r.GET("/admin/kategoriler/delete/:id", admin.Categories{}.Delete)
+
 	//SERVE FILES
 	r.ServeFiles("/admin/assets/*filepath", http.Dir("admin/assets"))
 	r.ServeFiles("/uploads/*filepath", http.Dir("uploads"))
