@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/julienschmidt/httprouter"
 	admin "httrouter/admin/controllers"
+	site "httrouter/site/controllers"
 	"net/http"
 )
 
@@ -24,8 +25,12 @@ func Routes() *httprouter.Router {
 	r.POST("/admin/kategoriler/add", admin.Categories{}.Add)
 	r.GET("/admin/kategoriler/delete/:id", admin.Categories{}.Delete)
 
+	r.GET("/", site.Homepage{}.Index)
+	r.GET("/yazilar/:slug", site.Homepage{}.Detail)
+
 	//SERVE FILES
 	r.ServeFiles("/admin/assets/*filepath", http.Dir("admin/assets"))
+	r.ServeFiles("/assets/*filepath", http.Dir("site/assets"))
 	r.ServeFiles("/uploads/*filepath", http.Dir("uploads"))
 	return r
 }
